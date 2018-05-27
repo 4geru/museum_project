@@ -3,6 +3,8 @@ require 'line/bot'
 require 'dotenv'
 require 'pry'
 
+require './lib/event/message_event'
+
 Dotenv.load
 def client
   @client ||= Line::Bot::Client.new { |config|
@@ -29,11 +31,7 @@ post '/callback' do
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text
-        message = {
-          type: 'text',
-          text: event.message['text']
-        }
-        client.reply_message(event['replyToken'], message)
+        client.reply_message(event['replyToken'], message_event(event.message['text'], event))
       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         response = client.get_message_content(event.message['id'])
         tf = Tempfile.open("content")
