@@ -1,4 +1,3 @@
-
 require './app'
 require './spec/spec_helper'
 

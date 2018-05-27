@@ -1,4 +1,3 @@
-
 require './lib/api'
 require './spec/spec_helper'
 
